@@ -1,6 +1,7 @@
 # Nexpose Scan Problem Monitor
 
 require "nexpose"
+require 'net/smtp'
 
 # Need this since Ruby 2.x tries to use any set proxies.
 ENV['http_proxy'] = nil
