@@ -46,3 +46,12 @@ If you do have OID errors, you can delete them with the following command. Repla
 
     sudo /opt/rapid7/nexpose/nsc/nxpgsql/pgsql/bin/psql -U nxpgsql -d nexpose -c "DELETE FROM pg_proc WHERE pronamespace = 123456789;"
 
+
+## nsc_parser.py
+This is a python module for parsing Nexpose logs. It returns a list of objects (one for each line) with the values parsed out into attributes.
+
+Example usage:
+
+    import nsc_parser
+    log = nsc_parser.parse('/opt/rapid7/nexpose/nsc/logs/nsc.log')
+
