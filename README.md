@@ -56,7 +56,24 @@ Example usage:
 
     import nsc_parser
     log = nsc_parser.parse('/opt/rapid7/nexpose/nsc/logs/nsc.log')
+    
+    # Get log entries from today with log level ERROR.
     log.today().level('ERROR')
+    
+    # Get log entries from today and gives stats of how many errors there were for each log level.
     log.today().levelStats()
+    
+    # Get log entries with log level WARN and shows how many errors of that type there were for each day.
     log.level('WARN').dateStats()
+    
+    # Return log entries where 'fail' (case insensitive) is present in the text field.
+    log.textSearch('fail')
+    
+    # Get log entries where the log level is ERROR and a file name was found in the text field.
+    log.level('ERROR').hasFile()
 
+    # Get log entries from before a datetime
+    log.before(<datetime object>)
+    
+    # Get log entries from after a datetime
+    log.after(<datetime object>)
