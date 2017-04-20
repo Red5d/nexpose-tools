@@ -50,8 +50,13 @@ If you do have OID errors, you can delete them with the following command. Repla
 ## nsc_parser.py
 This is a python module for parsing Nexpose logs. It returns a list of objects (one for each line) with the values parsed out into attributes.
 
+The output is a LogList object which is a List with additional filter/stats functions that can be chained to drill down to the view that you need (as shown in the examples below).
+
 Example usage:
 
     import nsc_parser
     log = nsc_parser.parse('/opt/rapid7/nexpose/nsc/logs/nsc.log')
+    log.today().level('ERROR')
+    log.today().levelStats()
+    log.level('WARN').dateStats()
 
