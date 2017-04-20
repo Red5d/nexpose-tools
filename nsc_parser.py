@@ -1,10 +1,11 @@
 import re
+from datetime import datetime
 
-reg = '(?P<date>[^\s]+)\s\[(?P<level>[^\]]+)\](?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?\s(?P<text>(?:.*\s(?P<file>\/[^\s]+)\.\s)?.*)'
+reg = '(?P<date>[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2})\s\[(?P<level>[^\]]+)\](?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?\s(?P<text>(?:.*\s(?P<file>\/[^\s]+)\.\s)?.*)'
 
 class Entry(object):
     def __init__(self, date, level, text, other, files=None):
-        self.date = date
+        self.date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S')
         self.level = level
         self.text = text
         self.other = other
@@ -36,7 +37,7 @@ def parse(filename):
         other2 = {}
         for k, v in zip(otherkeys, othervals):
             other2[k] = v
-            
+           
         log.append(Entry(m.groupdict()['date'], m.groupdict()['level'], m.groupdict()['text'], other2, m.groupdict()['file']))
         
   return log
