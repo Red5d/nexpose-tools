@@ -3,6 +3,47 @@ from datetime import datetime
 
 reg = '(?P<date>[0-9]{4}\-[0-9]{2}\-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2})\s\[(?P<level>[^\]]+)\](?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?(?:\s\[([^\]]+)\])?\s(?P<text>(?:.*\s(?P<file>\/[^\s]+)\.\s)?.*)'
 
+class LogList(list):
+    def today(self):
+        today = datetime.today()
+        return LogList(x for x in self if x.date > datetime(today.year, today.month, today.day))
+
+    def before(self, dt):
+        return LogList(x for x in self if x.date < dt)
+        
+    def after(self, dt):
+        return LogList(x for x in self if x.date > dt)
+
+    def level(self, name):
+        return LogList(x for x in self if x.level == name)
+        
+    def hasFile(self):
+        return LogList(x for x in self if x.files != None)
+        
+    def textSearch(self, search):
+        return LogList(x for x in self if search.lower() in x.text.lower())
+        
+    def levelStats(self):
+        results = {}
+        for entry in self:
+            if entry.level not in results.keys():
+                results[entry.level] = 1
+            else:
+                results[entry.level] += 1
+                
+        return results
+
+    def dateStats(self):
+        results = {}
+        for entry in self:
+            if entry.date.date() not in results.keys():
+                results[entry.date.date()] = 1
+            else:
+                results[entry.date.date()] += 1
+                
+        return results
+        
+
 class Entry(object):
     def __init__(self, date, level, text, other, files=None):
         self.date = datetime.strptime(date, '%Y-%m-%dT%H:%M:%S')
@@ -40,5 +81,5 @@ def parse(filename):
            
         log.append(Entry(m.groupdict()['date'], m.groupdict()['level'], m.groupdict()['text'], other2, m.groupdict()['file']))
         
-  return log
+  return LogList(log)
     
