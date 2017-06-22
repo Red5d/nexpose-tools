@@ -3,7 +3,8 @@
 This is a group of useful scripts that I use to monitor and fix issues that sometimes come up in Nexpose.
 
 ## Dependencies
-All shell scripts need to be run from an account with sudo/root access, and all ruby scripts require Ruby 2.x, the "nexpose" gem, and a valid account on the Nexpose console with access to the resources that the script checks.
+All shell scripts need to be run from an account with sudo/root access.
+All ruby scripts require Ruby 2.x, the "nexpose" gem, and a valid account on the Nexpose console with access to the resources that the script checks.
 
 - - - -
 
@@ -77,3 +78,24 @@ Example usage:
     
     # Get log entries from after a datetime
     log.after(<datetime object>)
+
+    
+## site-backup.rb
+Backs up full configuration of Nexpose sites to yaml files.
+This includes assigned assets, scan templates, schedules, etc.
+
+    Example: ruby site-backup.rb <Nexpose console host>
+    
+You will be prompted to log in, then asked for the ID number of the site(s) you want to back up.
+Sites will be saved as .yml files in the current directory and named with the site name.
+
+
+## site-restore.rb
+Restores the full configuration of Nexpose sites from yaml files created by the site-backup.rb tool.
+This includes assigned assets, scan templates, schedules, etc.
+
+    Example: ruby site-restore.rb <Nexpose console host> <site1.yml> <site2.yml> ...
+    
+You will be prompted to log in, then it will go through each .yml file you specified and check for an existing site with that name.
+If a site is found with that name, it will first confirm the overwite action, then restore the config to that existing site.
+If no sites with that name are found, it will ask to create and restore to a new site.
