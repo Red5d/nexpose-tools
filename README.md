@@ -87,15 +87,17 @@ This includes assigned assets, scan templates, schedules, etc.
     Example: ruby site-backup.rb <Nexpose console host>
     
 You will be prompted to log in, then asked for the ID number of the site(s) you want to back up.
+
 Sites will be saved as .yml files in the current directory and named with the site name.
 
 
 ## site-restore.rb
-Restores the full configuration of Nexpose sites from yaml files created by the site-backup.rb tool.
-This includes assigned assets, scan templates, schedules, etc.
+Restores the full configuration of Nexpose sites from yaml files created by the site-backup.rb tool. This includes assigned assets, scan templates, schedules, etc.
 
     Example: ruby site-restore.rb <Nexpose console host> <site1.yml> <site2.yml> ...
     
 You will be prompted to log in, then it will go through each .yml file you specified and check for an existing site with that name.
+
 If a site is found with that name, it will first confirm the overwite action, then restore the config to that existing site.
+
 If no sites with that name are found, it will ask to create and restore to a new site.
